@@ -1,4 +1,9 @@
+require 'rack-flash'
+
 class SongsController < ApplicationController
+
+    enable :sessions
+    use Rack::Flash
     
     get '/songs' do
         @songs = Song.all
@@ -16,13 +21,14 @@ class SongsController < ApplicationController
         @song.genre_ids = params[:genres]
 
         if !params["artist"]["name"].empty?
-            @song.artist = Artist.create(name: params["artist"]["name"])
+            @song.artist = Artist.find_or_create_by(name: params["artist"]["name"])
         else
             @song.artist = Artist.find(params["song"]["artist_id"])
         end
 
         @song.save
 
+        flash[:message] = "Successfully created song."
         redirect to "/songs/#{@song.slug}"
     end
 
