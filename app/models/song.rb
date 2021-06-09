@@ -8,7 +8,9 @@ class Song < ActiveRecord::Base
     end
 
     def self.find_by_slug(slug)
-        @new_string = slug.gsub("-"," ").titleize
-        Song.find_by(name: @new_string)
+        # @new_string = slug.gsub("-"," ").titleize
+        # Song.find_by(name: @new_string)
+
+        self.all.find {|s| s.slug == slug}
     end
 end

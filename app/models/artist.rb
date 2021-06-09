@@ -7,7 +7,9 @@ class Artist < ActiveRecord::Base
     end
 
     def self.find_by_slug(slug)
-        @new_string = slug.gsub("-"," ").titleize
-        Artist.find_by(name: @new_string)
+        # @new_string = slug.gsub("-"," ").titleize
+        #upcase and upcase the Song.name so we're comparing the same text
+        
+        self.all.find {|a| a.slug == slug}
     end
 end
